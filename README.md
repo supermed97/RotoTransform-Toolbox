@@ -6,17 +6,17 @@
 
 ## Features
 
-- **Some Transformations**:
-  - `eulerToSO3.m`: Convert Euler angles to \( SO(3) \).
-  - `quaternionMultip...`: Perform quaternion multiplication.
-  - `rodriguezToS03.m`: Convert Rodriguez parameters to \( SO(3) \).
-  - `SO3ToEuler.m`: Convert \( SO(3) \) to Euler angles.
-  
+- **Some Transformations Among The Many **:
+  - `eulerToSO3(phi, theta, psi)`: Convert Euler angles to \( SO(3) \).
+  - `rodriguezToSO3(rho)`: Convert Rodriguez parameters to \( SO(3) \).
+  - `SO3ToEuler(R)`: Convert \( SO(3) \) to Euler angles.
+
 - **Derivatives**:
-  - `J_euler.m`: Calculate the Jacobian of Euler angles.
-  
+  - `J_euler(phi, theta)`: Calculate the Jacobian of Euler angles.
+
 - **Utilities**:
-  - `vex.m`: Compute the vector exponential.
+  - `skewSymmetric(v)`: Map a vector from \( \mathbb{R}^3 \) to \( so(3) \).
+  - `vex(A)`: Convert a skew-symmetric matrix \( [\cdot]_\times \) to vector form.
 
 ## Examples
 
