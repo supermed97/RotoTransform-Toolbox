@@ -25,7 +25,7 @@ RunT = Tm + (TM-Tm).*rand(N,1);
 
     x0_Euler=SO3ToEuler(R_0);
     x0_Rod=SO3ToRodriguez(R_0);
-    x0_Quat=so3ToQuaternion(R_0);
+    x0_Quat=SO3ToQuaternion(R_0);
 
   [Tout_Quat,Error_Quat,Xout_Quat,Xdout_Quat,uout_Quat] = QuatOdeIntegrator(x0_Quat,OMEGA_function);
   [Tout_Euler,Error_Euler,Xout_Euler,Xdout_Euler,uout_Euler,norms_Euler] = EulerOdeIntegrator(x0_Euler,OMEGA_function);

@@ -1,4 +1,4 @@
-function Q = so3ToQuaternion(R)
+function Q = SO3ToQuaternion(R)
     % Check if R is a 3x3 matrix
     assert(all(size(R) == [3, 3]), 'Input R must be a 3x3 matrix.');
 
