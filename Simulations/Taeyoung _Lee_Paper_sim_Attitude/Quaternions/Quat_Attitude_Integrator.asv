@@ -142,18 +142,11 @@ function [M] =  bodyTorque(x,t,J)
 
     Q_err = quaternionMultiply(QdInv, Q);
 
-    % vex(Pa(R(Q_err)) = 2q0q
-    e_R  = 2*Q_err(1)*Q_err(2:4);
-
-    % error on SO(3) -> R(Q_err)
+    % error on SO(3)
     R_e = quaternionToSO3(Q_err)
 
-    % Alternative calculation eR through isomorphism from Q to R
-
-    % eR_skew_symm = Pa(R(Q_err)) 
+    % eR through isomorphism from Q to R
     e_R_skew = 0.5*(R_e - R_e');
-
-    % 
     e_R =vex(e_R_skew);
 
     %eOmga
