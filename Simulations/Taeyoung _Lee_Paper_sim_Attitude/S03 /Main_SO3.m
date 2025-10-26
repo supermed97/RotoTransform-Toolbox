@@ -79,9 +79,9 @@ plot(Tout_SO3, omega_x, 'b-', 'LineWidth', L_Wid)
 hold on
 plot(Tout_SO3, omega_x_ref, 'r--', 'LineWidth', L_Wid)
 xlabel('Time (sec)', 'FontSize', Font_x, 'Interpreter', 'latex')
-ylabel('$\omega_x$', 'FontSize', Font_y, 'Interpreter', 'latex')
-legend({'$\omega_x$','$\omega_{x,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
-title('Angular velocity $\omega_x$', 'FontSize', Font_Title, 'Interpreter', 'latex')
+ylabel('$\Omega_x$', 'FontSize', Font_y, 'Interpreter', 'latex')
+legend({'$\Omega_x$','$\Omega_{x,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
+title('Angular velocity $\Omega_x$', 'FontSize', Font_Title, 'Interpreter', 'latex')
 grid on
 
 subplot(3, 1, 2)
@@ -89,9 +89,9 @@ plot(Tout_SO3, omega_y, 'b-', 'LineWidth', L_Wid)
 hold on
 plot(Tout_SO3, omega_y_ref, 'r--', 'LineWidth', L_Wid)
 xlabel('Time (sec)', 'FontSize', Font_x, 'Interpreter', 'latex')
-ylabel('$\omega_y$', 'FontSize', Font_y, 'Interpreter', 'latex')
-legend({'$\omega_y$','$\omega_{y,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
-title('Angular velocity $\omega_y$', 'FontSize', Font_Title, 'Interpreter', 'latex')
+ylabel('$\Omega_y$', 'FontSize', Font_y, 'Interpreter', 'latex')
+legend({'$\Omega_y$','$\Omega_{y,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
+title('Angular velocity $\Omega_y$', 'FontSize', Font_Title, 'Interpreter', 'latex')
 grid on
 
 subplot(3, 1, 3)
@@ -99,9 +99,9 @@ plot(Tout_SO3, omega_z, 'b-', 'LineWidth', L_Wid)
 hold on
 plot(Tout_SO3, omega_z_ref, 'r--', 'LineWidth', L_Wid)
 xlabel('Time (sec)', 'FontSize', Font_x, 'Interpreter', 'latex')
-ylabel('$\omega_z$', 'FontSize', Font_y, 'Interpreter', 'latex')
-legend({'$\omega_z$','$\omega_{z,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
-title('Angular velocity $\omega_z$', 'FontSize', Font_Title, 'Interpreter', 'latex')
+ylabel('$\Omega_z$', 'FontSize', Font_y, 'Interpreter', 'latex')
+legend({'$\Omega_z$','$\Omega_{z,ref}$'}, 'FontSize', Font_Legend, 'Interpreter', 'latex')
+title('Angular velocity $\Omega_z$', 'FontSize', Font_Title, 'Interpreter', 'latex')
 grid on
 
 %% Extract body torque components

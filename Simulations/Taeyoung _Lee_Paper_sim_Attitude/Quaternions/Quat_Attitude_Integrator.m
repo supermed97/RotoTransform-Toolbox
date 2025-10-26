@@ -1,5 +1,5 @@
 %% Integrator of SO3 dot -> R_dot = R[Omega]_x
-function [Tout,Error,Xout,Xdout,uout,distanceHistory] = SO3OdeIntegrator(xIn,J)
+function [Tout,Error,Xout,Xdout,uout,distanceHistory] = Quat_Attitude_Integrator(xIn,J)
 
 
 global RunT Ts
@@ -37,10 +37,12 @@ uout     = [];    %% u out
         xIn    = x(end,:)';
         x    = xIn(1:9,1);
 
-        R = reshape(xIn(1:9), [3, 3]);
-        Rd = reshape(xIn(13:21), [3, 3]);
+        q = xIn(1:4);
+        qdInv = quatInvUnit(xIn(8:11));
+        
+        q_err = quaternionMultiply(qdInv, q);
         omega_d = get_desired_angular_velocity(ti);
-        distance = NormalizedEuclideanDistance(Rd'*R);
+        distance = quatEuclideanNorm(q_err);
         distanceHistory(tk) = distance;
        
        
@@ -57,35 +59,36 @@ uout     = [];    %% u out
 end
 %% Unpack xIn into rotation matrices and angular velocities 
 
-function [R, omega, Rd] = unpack(xIn)
-    % Typical x1 in any 2nd order system : First 9 elements of xIn  → 3×3 rotation matrix
-    R = reshape(xIn(1:9), [3, 3]);
+function [q, omega, qd] = unpack(xIn)
 
-    % x2: Last 3 elements → 3×1 angular velocity vector
-    omega = xIn(10:12);
+% Typical x1 in any 2nd order system : First 4 elements of xIn  -> quaternion
+q = xIn(1:4); % => first 4 elements of xIn (q0; q1; q2; q3)
 
-    % if xIn contains reference rotation & angular velocity
-    if length(xIn) >= 21  % 9+3+9 elements for Rd and 3 for omega_d
-        Rd = reshape(xIn(13:21), [3, 3]);
-        
-    else
-        Rd = [];
-    end
+% x2: Next 3 elements -> 3×1 angular velocity vector
+omega = xIn(5:7); % next three
+
+% if xIn contains reference quaternion 
+if length(xIn) >= 11  % 4 + 3 + 4 elements for q_ref 
+    qd = xIn(8:11);   % elements 8:11 -> reference quaternion (q0_ref; q1_ref; q2_ref; q3_ref)
+else
+    qd = [];
 end
+end
+
 
 %% Model dynamics
 function dx = fmodel(t, xIn, M,ti,J)
 
-    [R, omega, Rd] = unpack(xIn);
+    [q, omega, qd] = unpack(xIn);
 
     omega_skew =skewSymmetricMatrix(omega);
-    Rdot = R * omega_skew;
+    qdot = Quat_XiMatrix(q) * omega;
     omega_dot= J \( -omega_skew * J*omega  + M);
     % Desired Attitude Integration from omega_d
 
     omega_d = get_desired_angular_velocity(ti);       % get reference angular velocity
-    Rd_dot = Rd * skewSymmetricMatrix(omega_d);
-    dx = [Rdot(:); omega_dot; Rd_dot(:)]; 
+    qd_dot = Quat_XiMatrix(qd) * omega_d;
+    dx = [qdot; omega_dot; qd_dot]; 
 end
 
 
@@ -133,10 +136,14 @@ function [M] =  bodyTorque(x,t,J)
     [omega_d, omega_d_dot] = get_desired_angular_velocity(t);
 
     % unpack states
-    [R, omega, Rd] = unpack(x);
+    [Q, omega, Qd] = unpack(x);
+
+    QdInv = quatInvUnit(Qd);
+
+    Q_err = quaternionMultiply(QdInv, Q);
 
     % error on SO(3)
-    R_e = Rd'*R;
+    R_e = quaternionToSO3(Q_err);
 
     % eR
     e_R_skew = 0.5*(R_e - R_e');
